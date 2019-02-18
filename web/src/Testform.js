@@ -6,6 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from  'axios';
+import NoteDialog from './components/NoteDialog'
 //import './App.css';
 
 const styles = theme => ({
@@ -57,6 +58,8 @@ const styles = theme => ({
 
 class TestForm extends React.Component{
     state = {
+      open: false,
+      text:'',
       selfSelectedAvg: null,
       fastSelectedAvg: null,
       patientName: '',
@@ -70,6 +73,17 @@ class TestForm extends React.Component{
       fastVelocity3: null,
 
     }
+
+    handleClickOpen = () => {
+      this.setState({
+        open: true,
+      });
+    };
+  
+    handleClose = () => {
+      this.setState({ open: false });
+    };
+
     avg = (a, b, c) => {
       return ((a + b + c)/3)
     }
@@ -82,7 +96,6 @@ class TestForm extends React.Component{
     }
     onSubmit = () => {
       alert('fired');
-      // let note = "The results of the test are: "
       let testResults = {
         selfSelectedAvg: this.state.selfSelectedAvg,
         fastSelectedAvg: this.state.fastSelectedAvg,
@@ -95,17 +108,28 @@ class TestForm extends React.Component{
         fastVelocity2: this.state.fastVelocity2,
         fastVelocity3: this.state.fastVelocity3,
       };
+      var text = `The results of the Patient ${testResults.patientName} 
+      is: Self-Selected Velocity1: ${testResults.selfSelectedVelocity1},
+      Self-Selected Velocity2: ${testResults.selfSelectedVelocity2}, Self-Selected Velocity3: ${testResults.selfSelectedVelocity3},      Average Selected Velocity: ${testResults.selfSelectedAvg},
+       Fast Velocity1 : ${testResults.fastVelocity1},
+       Fast Velocity2 : ${testResults.fastVelocity2},
+       Fast Velocity3 : ${testResults.fastVelocity3},
+       Average Fast Velocity: ${testResults.fastSelectedAvg}`
       let date = this.state.date;
-      axios.post('http://localhost:8080/testResults', {testResults, date})
+      axios.post('http://localhost:8080/testResults', {text, date})
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
+        console.log('[RESPONSE]',response);
       })
       .catch(function (error) {
         console.log(error);
       });
+      this.setState({text: text}) 
+      this.handleClickOpen()
     }
     render(){
       const { classes } = this.props;
+      console.log(this.state.text)
     return(
       <div>
         <form>
@@ -187,7 +211,7 @@ class TestForm extends React.Component{
             name="selfSelectedAvg"
             // defaultValue="Hello World"
             className={classes.textField}
-            //onChange={this.onChange}
+            onChange={this.onChange}
             value={this.state.selfSelectedAvg}
             margin="normal"
             />
@@ -232,6 +256,7 @@ class TestForm extends React.Component{
             name="fastSelectedAvg"
             // defaultValue="Hello World"
             className={classes.textField}
+            onChange={this.onChange}
             value={this.state.fastSelectedAvg}
             margin="normal"
           />
@@ -243,6 +268,11 @@ class TestForm extends React.Component{
         {/* <Icon className={classes.rightIcon}>send</Icon> */}
       </Button>
         </form>
+            <NoteDialog 
+              text={this.state.text}
+              open={this.state.open}
+              handleClose={this.handleClose}
+            />
       </div>
     )
   }
