@@ -95,7 +95,7 @@ class TestForm extends React.Component{
       })
     }
     onSubmit = () => {
-      alert('fired');
+      // alert('fired');
       let testResults = {
         selfSelectedAvg: this.state.selfSelectedAvg,
         fastSelectedAvg: this.state.fastSelectedAvg,
