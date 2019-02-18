@@ -109,12 +109,14 @@ class TestForm extends React.Component{
         fastVelocity3: this.state.fastVelocity3,
       };
       var text = `The results of the Patient ${testResults.patientName} 
-      is: Self-Selected Velocity1: ${testResults.selfSelectedVelocity1},
-      Self-Selected Velocity2: ${testResults.selfSelectedVelocity2}, Self-Selected Velocity3: ${testResults.selfSelectedVelocity3},      Average Selected Velocity: ${testResults.selfSelectedAvg},
-       Fast Velocity1 : ${testResults.fastVelocity1},
-       Fast Velocity2 : ${testResults.fastVelocity2},
-       Fast Velocity3 : ${testResults.fastVelocity3},
-       Average Fast Velocity: ${testResults.fastSelectedAvg}`
+      is: Self-Selected Velocity1: ${testResults.selfSelectedVelocity1} 'sec,
+      Self-Selected Velocity2: ${testResults.selfSelectedVelocity2} 'sec,
+      Self-Selected Velocity3: ${testResults.selfSelectedVelocity3} 'sec,
+      Average Selected Velocity: ${testResults.selfSelectedAvg}'m/s,
+       Fast Velocity1 : ${testResults.fastVelocity1} 'sec,
+       Fast Velocity2 : ${testResults.fastVelocity2} 'sec,
+       Fast Velocity3 : ${testResults.fastVelocity3} 'sec,
+       Average Fast Velocity: ${testResults.fastSelectedAvg} m/s`
       let date = this.state.date;
       axios.post('http://localhost:8080/testResults', {text, date})
       .then(function (response) {
