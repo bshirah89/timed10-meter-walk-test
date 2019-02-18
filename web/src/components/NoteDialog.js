@@ -75,7 +75,7 @@ class NoteDialog extends React.Component {
           open={this.props.open}
         >
           <DialogTitle id="customized-dialog-title">
-            Note
+            Note Saved!
           </DialogTitle>
           <DialogContent>
             <Typography gutterBottom>
